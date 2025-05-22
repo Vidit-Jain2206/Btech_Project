@@ -1,6 +1,7 @@
 
 import sys
 import os
+import random
 import math
 
 # Add parent directory to sys.path
@@ -50,10 +51,10 @@ def myfunction(e) :
 
 def calculate_vehicle_count(junction,index):
     for i in range(len(junction)) :
-
-        print(pictures[math.random.randint(0,7)])
+        image_index = random.randint(0,7)
+        print(pictures[image_index])
         print("detecting vehicles")
-        total_vehicles, category = detect_vehicles(pictures[i])
+        total_vehicles, category = detect_vehicles(pictures[image_index])
         # print("detected vehicles",count)
         lane = junction[i]
         lane.cars = total_vehicles

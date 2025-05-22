@@ -93,7 +93,7 @@ def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int]]:
     cv2.putText(image, f"Total Vehicles: {vehicle_count}", (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    return vehicle_count, dict(category_counts)
+    return vehicle_count, dict(category_counts),image
 
 
 
