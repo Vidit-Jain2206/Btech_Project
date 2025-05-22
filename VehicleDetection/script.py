@@ -3,13 +3,21 @@ import numpy as np
 import os
 from collections import defaultdict
 from typing import Tuple, Dict
+import os
 
-def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int], np.ndarray]:
+YOLO_DIR = os.path.join(os.path.dirname(__file__))
+CFG_PATH = os.path.join(YOLO_DIR, "yolov3.cfg")
+WEIGHTS_PATH = os.path.join(YOLO_DIR, "yolov3.weights")
+NAMES_PATH = os.path.join(YOLO_DIR, "coco.names")
+
+
+def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int]]:
     # Load YOLOv3
-    net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+    net = cv2.dnn.readNet(WEIGHTS_PATH, CFG_PATH)
+    # print(image_filename)
 
     # Load COCO class labels
-    with open("coco.names", "r") as f:
+    with open(NAMES_PATH, "r") as f:
         classes = [line.strip() for line in f.readlines()]
 
     # Vehicle-related classes
@@ -25,11 +33,11 @@ def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int], np.ndarra
     }
 
     # Load image
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    image_path = os.path.join(script_dir, image_filename)
-    image = cv2.imread(image_path)
+    # script_dir = os.path.dirname(os.path.abspath(__file__),"../")
+    # image_path = os.path.join(script_dir, image_filename)
+    image = cv2.imread(image_filename)
     if image is None:
-        raise FileNotFoundError(f"Error: Could not load image: {image_path}")
+        raise FileNotFoundError(f"Error: Could not load image: {image_filename}")
 
     height, width = image.shape[:2]
 
@@ -85,12 +93,12 @@ def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int], np.ndarra
     cv2.putText(image, f"Total Vehicles: {vehicle_count}", (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    return vehicle_count, dict(category_counts), image
+    return vehicle_count, dict(category_counts)
 
 
 
 if __name__ == "__main__":
-    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vehicles_count2.jpg")
+    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vehicles_count.jpg")
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Error: Image file not found: {image_path}")
     total, per_category, output_image = detect_vehicles(image_path)
