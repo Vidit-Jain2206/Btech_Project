@@ -54,7 +54,7 @@ def calculate_vehicle_count(junction,index):
         image_index = random.randint(0,7)
         print(pictures[image_index])
         print("detecting vehicles")
-        total_vehicles, category = detect_vehicles(pictures[image_index])
+        total_vehicles, category,image = detect_vehicles(pictures[image_index])
         # print("detected vehicles",count)
         lane = junction[i]
         lane.cars = total_vehicles

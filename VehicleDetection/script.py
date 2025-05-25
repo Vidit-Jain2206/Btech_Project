@@ -98,7 +98,7 @@ def detect_vehicles(image_filename: str) -> Tuple[int, Dict[str, int]]:
 
 
 if __name__ == "__main__":
-    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vehicles_count.jpg")
+    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pic5.jpg")
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Error: Image file not found: {image_path}")
     total, per_category, output_image = detect_vehicles(image_path)
